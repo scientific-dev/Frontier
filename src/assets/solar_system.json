@@ -15,9 +15,7 @@
         "perihelion": 1.38,
         "inclination": 25.19,
         "radius": 6787
-
-    }
-    ,
+    },
     {
         "name":"Mercury",
         "mass": 0.330e24,
@@ -25,8 +23,7 @@
         "perihelion": 0.31,
         "inclination": 0.03,
         "radius": 4878
-    }
-    ,
+    },
     {
         "name":"Venus",
         "mass": 4.87e24,
@@ -34,8 +31,7 @@
         "perihelion": 0.72,
         "inclination": 2.64,
         "radius": 12104
-    }
-    ,
+    },
     {
         "name":"Jupiter",
         "mass": 1898e24,
@@ -43,8 +39,7 @@
         "perihelion": 4.95,
         "inclination": 3.13,
         "radius": 142796
-    }
-    ,
+    },
     {
         "name":"Saturn",
         "mass": 568e24,
@@ -52,8 +47,7 @@
         "perihelion": 9.07,
         "inclination": 26.73,
         "radius": 120660
-    }
-    ,
+    },
     {
         "name":"Uranus",
         "mass": 86.8e24,
@@ -61,8 +55,7 @@
         "perihelion": 18.30,
         "inclination": 82.23,
         "radius": 51118
-    }
-    ,
+    },
     {
         "name":"Neptune",
         "mass": 102e24,

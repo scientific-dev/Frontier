@@ -1,4 +1,6 @@
-const copyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
 module.exports = {
   entry: {
     "js/script.js": "./src/js/main.js",
@@ -8,12 +10,13 @@ module.exports = {
     filename: "[name]",
   },
   resolve: { extensions: [".js"] },
+  optimization: { minimizer: [new CssMinimizerPlugin()] },
   plugins: [
-    new copyPlugin({
+    new CopyPlugin({
       patterns: [
         { from: "html", context: "src" },
         { from: "assets", context: "src", to: "assets" },
       ],
     }),
-  ],
+  ]
 };

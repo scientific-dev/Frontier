@@ -1,29 +1,29 @@
 import * as THREE from "three";
 
+const FETCH_MULTIPLY_FACTOR = 0.5;
+const wait = t => new Promise(r => setTimeout(r, t))
+
 /**
- *
- * @param {String} url
+ * @param {string} url
  * @returns {Promise<Response>}
  */
-
-export function refetch(url) {
-  return new Promise(async (resolve, reject) => {
-    let stop = false;
-    const wait = (time) => new Promise((res) => setTimeout(res, time));
-    let tries = 0;
-    let multiplyFactor = 0.5;
-    while (!stop) {
-      if (tries >= 10) tries = 0;
-      try {
-        const res = await fetch(url);
-        stop = true;
-        resolve(res);
-      } catch (e) {}
-      await wait(tries * multiplyFactor * 1000);
-      tries++;
-    }
-  });
+export function reFetch(url) {
+    return new Promise(async resolve => {
+        let tries = 0;
+        
+        while (true) {
+            if (tries >= 10) tries = 0;
+          
+            try {
+                return resolve(await fetch(url));
+            } catch (e) {}
+            
+            await wait(tries * FETCH_MULTIPLY_FACTOR * 1000);
+            tries++;
+        }
+    });
 }
+
 /**
  *
  * @param {String} url
@@ -72,3 +72,5 @@ export async function reloadBgImage(url, domElement) {
     tries++;
   }
 }
+
+export const NOOP = () => {};
