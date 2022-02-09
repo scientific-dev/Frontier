@@ -48,29 +48,26 @@ export function retextureLoader(url) {
     }
   });
 }
+
 /**
- *
- * @param {String} url
- * @param {String} type
+ * @param {string} url
+ * @param {string} type
  */
 export async function reloadBgImage(url, domElement) {
-  let stop = false;
-  const wait = (time) => new Promise((res) => setTimeout(res, time));
-  let tries = 0;
-  let multiplyFactor = 0.5;
-  while (!stop) {
-    if (tries >= 10) tries = 0;
-    try {
-      const img = new Image();
-      img.src = url;
-      img.onload = () => {
-        domElement.style.backgroundImage = `url(${url})`;
-        stop = true;
-      };
-    } catch (e) {}
-    await wait(tries * multiplyFactor * 1000);
-    tries++;
-  }
+    let tries = 0, multiplyFactor = 0.5;
+
+    while (true) {
+        if (tries >= 10) tries = 0;
+        try {
+            let img = new Image();
+
+            img.src = url;
+            img.onload = () => domElement.style.backgroundImage = `url(${url})`;
+        } catch (e) {}
+
+        await wait(tries * multiplyFactor * 1000);
+        tries++;
+    }
 }
 
 export const NOOP = () => {};

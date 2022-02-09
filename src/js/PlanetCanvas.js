@@ -131,360 +131,335 @@ export default class PlanetCanvas {
                 .then((data) => {
                     if (isMoon) {
                         content.getElementById('content-wrap').classList.remove("is-not-visible");
-                      content.querySelector(".loader").classList.remove("is-visible");
-                      content.querySelector(".planet_desc").textContent =
-                        data.description;
-                      content.querySelector(".planet_name").textContent =
-                        planet.name[0].toUpperCase() + planet.name.slice(1);
-          
-                      reloadBgImage(data.cover, content.querySelector(".planet_image"));
-                      content.querySelector(".planet_type span").textContent =
-                        data.table.type;
-          
-                      const table = document.querySelector(".other_data");
-                      table.innerHTML = "";
-                      table.innerHTML += `<div class="planet_data" data-label="rev_time">
-                      <div class="num">${data.table.year.value}<span class="unit">${
-                        data.table.year.suffix
-                      }</span></div>
-                      <div class="info">Length of year </div>            
-                    </div>
+                        content.querySelector(".loader").classList.remove("is-visible");
+
+                        content.querySelector(".planet_desc").textContent = data.description;
+                        content.querySelector(".planet_name").textContent = planet.name[0].toUpperCase() + planet.name.slice(1);
+                        
+                        reloadBgImage(data.cover, content.querySelector(".planet_image"));
+                        content.querySelector(".planet_type span").textContent = data.table.type;
+                        
+                        let table = document.querySelector(".other_data");
+                        table.innerHTML = 
+                        `<div class="planet_data" data-label="rev_time">
+                            <div class="num">
+                                ${data.table.year.value}<span class="unit">${data.table.year.suffix}</span>
+                            </div>
+                            <div class="info">Length of year </div>            
+                        </div>
                     
                    
-                    <div class="planet_data">
-                    <div class="num">${new Intl.NumberFormat("en-US").format(
-                      planet.data.radius * 1.49 * Math.pow(10, 8).toFixed(2)
-                    )}<span class="unit">Kms</span></div>
-                    <div class="info">Distance from ${
-                      planet.t.name[0].toUpperCase() + planet.t.name.slice(1)
-                    }</div>
-                    </div>
-                    <div class="planet_data" data-label="namesake">
-                    <div class="num" style="font-size:16px;">${data.table.namesake}</div>
-                    <div class="info">Namesake</div>
-                    </div>
-                    `;
-                      if (planet.articifial) {
-                        content.querySelector('[data-label="namesake"]').remove();
-                        table.innerHTML += `<div class="planet_data">
-                    <div class="num" style="font-size:16px;">${data.table.target}</div>
-                    <div class="info">Mission Target</div>
-                    </div>`;
-                      }
+                            <div class="planet_data">
+                                <div class="num">
+                                    ${new Intl.NumberFormat("en-US").format(planet.data.radius * 1.49 * Math.pow(10, 8).toFixed(2))}
+                                    <span class="unit">Kms</span>
+                                </div>
+
+                                <div class="info">Distance from ${planet.t.name[0].toUpperCase() + planet.t.name.slice(1)}</div>
+                            </div>`;
+
+                        table.innerHTML += planet.artificial
+                            ? `<div class="planet_data">
+                                <div class="num" style="font-size:16px;">${data.table.target}</div>
+                                <div class="info">Mission Target</div>
+                            </div>`
+                            : `<div class="planet_data">
+                                <div class="num" style="font-size:16px;">${data.table.namesake}</div>
+                                <div class="info">Namesake</div>
+                            </div>`;
                     } else {
-                      const table = document.querySelector(".other_data");
-                      table.innerHTML = `<div class="planet_data" data-label="rev_time">
-                    <div class="num">88</div>
-                    <div class="info">Length of year</div>
-                  </div>
-                  <div class="planet_data" data-label="sun_distance">
-                    <div class="num">0.4</div>
-                    <div class="info">Distance from Sun</div>
-                  </div>
-                  <div class="planet_data" data-label="time_to_sun">
-                    <div class="num">8</div>
-                    <div class="info">One way light time to Sun</div>
-                  </div>
+                        let table = document.querySelector(".other_data");
+
+                        table.innerHTML = 
+                        `<div class="planet_data" data-label="rev_time">
+                            <div class="num">88</div>
+                            <div class="info">Length of year</div>
+                        </div>
+                  
+                        <div class="planet_data" data-label="sun_distance">
+                            <div class="num">0.4</div>
+                            <div class="info">Distance from Sun</div>
+                        </div>
+
+                        <div class="planet_data" data-label="time_to_sun">
+                            <div class="num">8</div>
+                            <div class="info">One way light time to Sun</div>
+                        </div>
           
-                  <div class="planet_data" data-label="moons_count">
-                    <div class="num">0</div>
-                    <div class="info">Moons</div>
-                  </div>
-                  <div class="planet_data" data-label="name_sake">
-                    <div class="num" style="font-size:16px;"><Roman god of speed></div>
-                    <div class="info">Namesake</div>
-                  </div>`;
-                      content
-                        .querySelector(".content-wrap")
-                        .classList.remove("is-not-visible");
-                      content.querySelector(".loader").classList.remove("is-visible");
+                        <div class="planet_data" data-label="moons_count">
+                            <div class="num">0</div>
+                            <div class="info">Moons</div>
+                        </div>
+
+                        <div class="planet_data" data-label="name_sake">
+                            <div class="num" style="font-size:16px;"><Roman god of speed></div>
+                            <div class="info">Namesake</div>
+                        </div>`;
+
+                        content.querySelector(".content-wrap").classList.remove("is-not-visible");
+                        content.querySelector(".loader").classList.remove("is-visible");
+                        content.querySelector(".planet_desc").textContent = data.description;
+                        content.querySelector(".planet_name").textContent = planet.name[0].toUpperCase() + planet.name.slice(1);
+                        content.querySelector(".planet_image").style.backgroundImage = `url(${data.cover})`;
+                        content.querySelector(".planet_type span").textContent = data.table.type;
+                        content.querySelector(`[data-label="rev_time"]`).querySelector(".num").innerHTML = `${data.table.year.value}<span class="unit"> ${data.table.year.suffix}</span>`;
           
-                      content.querySelector(".planet_desc").textContent =
-                        data.description;
-                      content.querySelector(".planet_name").textContent =
-                        planet.name[0].toUpperCase() + planet.name.slice(1);
-                      content.querySelector(
-                        ".planet_image"
-                      ).style.backgroundImage = `url(${data.cover})`;
-                      content.querySelector(".planet_type span").textContent =
-                        data.table.type;
-                      content
-                        .querySelector(`[data-label="rev_time"]`)
-                        .querySelector(".num").innerHTML =
-                        data.table.year.value +
-                        `<span class="unit"> ${data.table.year.suffix}</span>`;
+                        content
+                            .querySelector(`[data-label="sun_distance"]`)
+                            .querySelector(".num").innerHTML = Math.ceil(planet.radius / 500) + '<span class="unit"> AU</span>';
           
-                      content
-                        .querySelector(`[data-label="sun_distance"]`)
-                        .querySelector(".num").innerHTML =
-                        Math.ceil(planet.radius / 500) + '<span class="unit"> AU</span>';
+                        let totalSec = ((planet.radius * 149597871 * 1000) / (3 * Math.pow(10, 8) * 500)).toFixed(2);
+                      
+                        content
+                            .querySelector(`[data-label="time_to_sun"]`)
+                            .querySelector(".num").textContent = moment.utc(totalSec * 1000).format("HH:mm:ss");
+
+                        content
+                            .querySelector(`[data-label="moons_count"]`)
+                            .querySelector(".num").textContent = data.table.moons;
           
-                      var totalsec = (
-                        (planet.radius * 149597871 * 1000) /
-                        (3 * Math.pow(10, 8) * 500)
-                      ).toFixed(2);
-                      content
-                        .querySelector(`[data-label="time_to_sun"]`)
-                        .querySelector(".num").textContent = moment
-                        .utc(totalsec * 1000)
-                        .format("HH:mm:ss");
-                      content
-                        .querySelector(`[data-label="moons_count"]`)
-                        .querySelector(".num").textContent = data.table.moons;
+                        content
+                            .querySelector(`[data-label="name_sake"]`)
+                            .querySelector(".num").textContent = data.table.namesake;
           
-                      content
-                        .querySelector(`[data-label="name_sake"]`)
-                        .querySelector(".num").textContent = data.table.namesake;
-          
-                      content.querySelector(".loader").classList.remove("is-visible");
-                      content
-                        .querySelector(".content-wrap")
-                        .classList.remove("is-not-visible");
+                        content.querySelector(".loader").classList.remove("is-visible");
+                        content.querySelector(".content-wrap").classList.remove("is-not-visible");
                     }
 
                     // table.innerHTML = "";
                 }, NOOP)
         }
+
         if (isMoon) {
-          this.setFocus(
-            planet.position.x,
-            planet.position.y,
-            planet.position.z,
-            planet.zaxis
-          );
-        } else
-          this.setFocus(
+            this.setFocus(planet.position.x, planet.position.y, planet.position.z, planet.zaxis);
+        } else this.setFocus(
             planet[planet.name.toLowerCase() + "Sphere"].position.x,
             planet[planet.name.toLowerCase() + "Sphere"].position.y,
             planet[planet.name.toLowerCase() + "Sphere"].position.z,
             planet.zaxis,
             angle
-          );
+        );
+
         this.planet = planet;
-        if (this.planet.name != "sun") {
-          this.planet.elem.style.display = "none";
-        }
-    
-        if (!mounted && this.planet.name != "sun") {
-          this.planet.mount();
-        }
+
+        if (this.planet.name != "sun") this.planet.elem.style.display = "none";
+        if (!mounted && this.planet.name != "sun") this.planet.mount();
     
         this.AUTOMOVE = true;
         this.controls.autoRotate = true;
     }
 
-  travelTo(x, isMoon) {
-    const travel_stats = document.querySelector("#travel_stats");
-    var camPos = this.camera.position;
-    var initCampos = camPos.clone();
-    let target = null;
-    if (isMoon) target = x.position;
-    else target = x[x.name.toLowerCase() + "Sphere"].position;
-    x.mount();
-    this.controls.enabled = false;
-    travel_stats.innerHTML =
-      `${x.symbol} Traveling to <span class="bold-text" style="color:${
-        "#" + x.color.toString(16)
-      };">` +
-      x.name[0].toUpperCase() +
-      x.name.slice(1) +
-      "</span>";
-    travel_stats.classList.add("is-visible");
-    let animate = () => {
-      const distance_in_percentage_from_init =
-        initCampos.distanceTo(camPos) / initCampos.distanceTo(target);
-      if (distance_in_percentage_from_init > 0.8) {
-        this.focusPlanet(x, true, isMoon);
-        this.controls.enabled = true;
-        setTimeout(() => {
-          travel_stats.classList.remove("is-visible");
-        }, 1000);
-        return;
-      } else requestAnimationFrame(animate);
-      camPos.x += (target.x - camPos.x) * 0.03;
-      camPos.y += (target.y - camPos.y) * 0.03;
-      camPos.z += (target.z - camPos.z) * 0.03;
-      this.camera.position.set(camPos.x, camPos.y, camPos.z);
-      this.camera.lookAt(target);
-    };
-    requestAnimationFrame(animate);
-  }
-  loadEntities() {
-    const sun = new Sun(this.scene, this.camera, this.renderer);
-    sun.init();
-    this.sun = sun;
+    travelTo(x, isMoon) {
+        let travelStats = document.querySelector("#travel_stats");
+        let camPos = this.camera.position;
+        let initCampos = camPos.clone();
+        let target = isMoon ? x.position : x[x.name.toLowerCase() + "Sphere"].position;
 
-    const earth = new Earth(
-      this.scene,
-      this.camera,
-      this.renderer,
-      this.data.find((x) => x.name === "Earth")
-    );
-    earth.init();
-    // this.focusPlanet(earth);
-    this.entities.push(earth);
+        x.mount();
+        this.controls.enabled = false;
 
-    const mars = new Mars(
-      this.scene,
-      this.camera,
-      this.renderer,
-      this.data.find((x) => x.name === "Mars")
-    );
+        travelStats.innerHTML =
+            `${x.symbol} Traveling to <span class="bold-text" style="color:${"#" + x.color.toString(16)};">
+                ${x.name[0].toUpperCase()}
+                ${x.name.slice(1)}
+            </span>`;
 
-    mars.init();
-    // this.focusPlanet(mars);
-    this.entities.push(mars);
+        travelStats.classList.add("is-visible");
+        
+        let animate = () => {
+            let distanceInPercentageFromInit = initCampos.distanceTo(camPos) / initCampos.distanceTo(target);
+            if (distanceInPercentageFromInit > 0.8) {
+                this.focusPlanet(x, true, isMoon);
+                this.controls.enabled = true;
+                return setTimeout(() => travelStats.classList.remove("is-visible"), 1000);
+            } else requestAnimationFrame(animate);
 
-    const jupiter = new Jupiter(
-      this.scene,
-      this.camera,
-      this.renderer,
-      this.data.find((x) => x.name === "Jupiter")
-    );
-    jupiter.init();
-    // this.focusPlanet(jupiter);
-    this.entities.push(jupiter);
+            camPos.x += (target.x - camPos.x) * 0.03;
+            camPos.y += (target.y - camPos.y) * 0.03;
+            camPos.z += (target.z - camPos.z) * 0.03;
 
-    const venus = new Venus(
-      this.scene,
-      this.camera,
-      this.renderer,
-      this.data.find((x) => x.name === "Venus")
-    );
+            this.camera.position.set(camPos.x, camPos.y, camPos.z);
+            this.camera.lookAt(target);
+        };
+        
+        requestAnimationFrame(animate);
+    }
 
-    venus.init();
-    // this.focusPlanet(venus);
-    this.entities.push(venus);
-
-    const saturn = new Saturn(
-      this.scene,
-      this.camera,
-      this.renderer,
-      this.data.find((x) => x.name === "Saturn")
-    );
-    saturn.init();
-    // this.focusPlanet(saturn);
-    this.entities.push(saturn);
-
-    const mercury = new Mercury(
-      this.scene,
-      this.camera,
-      this.renderer,
-      this.data.find((x) => x.name === "Mercury")
-    );
-    mercury.init();
-    // this.focusPlanet(mercury);
-    this.entities.push(mercury);
-
-    const uranus = new Uranus(
-      this.scene,
-      this.camera,
-      this.renderer,
-      this.data.find((x) => x.name === "Uranus")
-    );
-    uranus.init();
-    // this.focusPlanet(uranus);
-    this.entities.push(uranus);
-
-    const neptune = new Neptune(
-      this.scene,
-      this.camera,
-      this.renderer,
-      this.data.find((x) => x.name === "Neptune")
-    );
-    neptune.init();
-
-    this.entities.push(neptune);
-
-    const pluto = new Pluto(
-      this.scene,
-      this.camera,
-      this.renderer,
-      this.data.find((x) => x.name === "Pluto")
-    );
-    pluto.init();
-    this.entities.push(pluto);
-
-    var search = document.querySelector("input");
-    const ul = document.querySelector(".search-holder ul");
-    search.addEventListener("keyup", (e) => {
-      if (!search.value) return;
-      let results = this.bodies.filter((x) =>
-        x.name.toLowerCase().startsWith(search.value.toLowerCase())
-      );
-
-      ul.innerHTML = "";
-      results.forEach((x) => {
-        const el = document.createElement("li");
-        el.textContent = x.name[0].toUpperCase() + x.name.slice(1);
-        el.addEventListener("click", async () => {
-          if (this.planet && this.planet.name == x.name) return;
-          let target = this.entities.find((y) => y.name == x.name);
-
-          if (!target) {
-            target = this.entities.find(
-              (y) => y.name.toLowerCase() == x.parent.toLowerCase()
-            );
-
-            await target.loadMoons();
-
-            target.mount();
-
-            target = target.moons.find(
-              (y) => y.name.toLowerCase() == x.name.toLowerCase()
-            );
-          }
-          this.travelTo(target, target.moon);
+    loadEntities() {
+        this.sun = new Sun(this.scene, this.camera, this.renderer).init();
+        
+        const earth = new Earth(
+          this.scene,
+          this.camera,
+          this.renderer,
+          this.data.find((x) => x.name === "Earth")
+        );
+        earth.init();
+        // this.focusPlanet(earth);
+        this.entities.push(earth);
+    
+        const mars = new Mars(
+          this.scene,
+          this.camera,
+          this.renderer,
+          this.data.find((x) => x.name === "Mars")
+        );
+    
+        mars.init();
+        // this.focusPlanet(mars);
+        this.entities.push(mars);
+    
+        const jupiter = new Jupiter(
+          this.scene,
+          this.camera,
+          this.renderer,
+          this.data.find((x) => x.name === "Jupiter")
+        );
+        jupiter.init();
+        // this.focusPlanet(jupiter);
+        this.entities.push(jupiter);
+    
+        const venus = new Venus(
+          this.scene,
+          this.camera,
+          this.renderer,
+          this.data.find((x) => x.name === "Venus")
+        );
+    
+        venus.init();
+        // this.focusPlanet(venus);
+        this.entities.push(venus);
+    
+        const saturn = new Saturn(
+          this.scene,
+          this.camera,
+          this.renderer,
+          this.data.find((x) => x.name === "Saturn")
+        );
+        saturn.init();
+        // this.focusPlanet(saturn);
+        this.entities.push(saturn);
+    
+        const mercury = new Mercury(
+          this.scene,
+          this.camera,
+          this.renderer,
+          this.data.find((x) => x.name === "Mercury")
+        );
+        mercury.init();
+        // this.focusPlanet(mercury);
+        this.entities.push(mercury);
+    
+        const uranus = new Uranus(
+          this.scene,
+          this.camera,
+          this.renderer,
+          this.data.find((x) => x.name === "Uranus")
+        );
+        uranus.init();
+        // this.focusPlanet(uranus);
+        this.entities.push(uranus);
+    
+        const neptune = new Neptune(
+          this.scene,
+          this.camera,
+          this.renderer,
+          this.data.find((x) => x.name === "Neptune")
+        );
+        neptune.init();
+    
+        this.entities.push(neptune);
+    
+        const pluto = new Pluto(
+          this.scene,
+          this.camera,
+          this.renderer,
+          this.data.find((x) => x.name === "Pluto")
+        );
+        pluto.init();
+        this.entities.push(pluto);
+    
+        var search = document.querySelector("input");
+        const ul = document.querySelector(".search-holder ul");
+        search.addEventListener("keyup", (e) => {
+          if (!search.value) return;
+          let results = this.bodies.filter((x) =>
+            x.name.toLowerCase().startsWith(search.value.toLowerCase())
+          );
+    
           ul.innerHTML = "";
           results.forEach((x) => {
             const el = document.createElement("li");
-            el.textContent = x.toUpperCase() + x.slice(1);
-            el.addEventListener("click", () => {
-              if (this.planet && this.planet.name == x) return;
-              this.travelTo(x);
+            el.textContent = x.name[0].toUpperCase() + x.name.slice(1);
+            el.addEventListener("click", async () => {
+              if (this.planet && this.planet.name == x.name) return;
+              let target = this.entities.find((y) => y.name == x.name);
+    
+              if (!target) {
+                target = this.entities.find(
+                  (y) => y.name.toLowerCase() == x.parent.toLowerCase()
+                );
+    
+                await target.loadMoons();
+    
+                target.mount();
+    
+                target = target.moons.find(
+                  (y) => y.name.toLowerCase() == x.name.toLowerCase()
+                );
+              }
+              this.travelTo(target, target.moon);
               ul.innerHTML = "";
-              search.value = "";
+              results.forEach((x) => {
+                const el = document.createElement("li");
+                el.textContent = x.toUpperCase() + x.slice(1);
+                el.addEventListener("click", () => {
+                  if (this.planet && this.planet.name == x) return;
+                  this.travelTo(x);
+                  ul.innerHTML = "";
+                  search.value = "";
+                });
+                ul.appendChild(el);
+              });
             });
             ul.appendChild(el);
           });
         });
-        ul.appendChild(el);
-      });
-    });
+    
+        this.entities.forEach((x) => {
+          x.elem = document.createElement("div");
+          x.elem.className = "label";
+          const text = document.createElement("div");
+          text.textContent = x.name[0].toUpperCase() + x.name.slice(1);
+          text.className = "label-text";
+          const ring = document.createElement("div");
+          ring.className = "label-ring";
+          ring.style.borderColor = "#" + x.color.toString(16);
+          x.elem.appendChild(ring);
+          x.elem.appendChild(text);
+          document.body.appendChild(x.elem);
+          x.onMoonClick = (e) => {
+            this.travelTo(e, true);
+          };
+          x.elem.addEventListener("click", () => {
+            this.travelTo(x);
+          });
+        });
+    
+        this.focusPlanet(sun, null, null, (60 * Math.PI) / 180);
+    
+        document.querySelector("#travel_stats").innerHTML =
+          `${this.sun.symbol} Welcome to <span class="bold-text" style="color:${
+            "#" + this.sun.color.toString(16)
+          };">` +
+          "Solar System" +
+          "</span>";
+        document.querySelector("#travel_stats").classList.add("is-visible");
+        setTimeout(() => {
+          document.querySelector("#travel_stats").classList.remove("is-visible");
+        }, 5000);
+    }
 
-    this.entities.forEach((x) => {
-      x.elem = document.createElement("div");
-      x.elem.className = "label";
-      const text = document.createElement("div");
-      text.textContent = x.name[0].toUpperCase() + x.name.slice(1);
-      text.className = "label-text";
-      const ring = document.createElement("div");
-      ring.className = "label-ring";
-      ring.style.borderColor = "#" + x.color.toString(16);
-      x.elem.appendChild(ring);
-      x.elem.appendChild(text);
-      document.body.appendChild(x.elem);
-      x.onMoonClick = (e) => {
-        this.travelTo(e, true);
-      };
-      x.elem.addEventListener("click", () => {
-        this.travelTo(x);
-      });
-    });
-
-    this.focusPlanet(sun, null, null, (60 * Math.PI) / 180);
-
-    document.querySelector("#travel_stats").innerHTML =
-      `${this.sun.symbol} Welcome to <span class="bold-text" style="color:${
-        "#" + this.sun.color.toString(16)
-      };">` +
-      "Solar System" +
-      "</span>";
-    document.querySelector("#travel_stats").classList.add("is-visible");
-    setTimeout(() => {
-      document.querySelector("#travel_stats").classList.remove("is-visible");
-    }, 5000);
-  }
   async fetchData() {
     try {
       const res = await reFetch("https://ssd-abh80.vercel.app/all"); //https://ssd-aabh80.vercel.app/all

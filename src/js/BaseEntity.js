@@ -225,32 +225,35 @@ export default class BaseEntity {
     moon.render = this.render.bind(this);
     document.body.appendChild(moon.elem);
     moon.color = this.color;
+    var smallLoad = document.getElementById("lds-hourglass");
+
     moon.mount = async () => {
       moon.removeTrail();
       if (!moon.loaded) {
-        let ob = await this.loadGlb(
-          moon.name,
-          moon.texture,
-          moon.props.radius,
-          { x: moon.props.x, y: moon.props.y, z: moon.props.z },
-          moon.props.inclination
-        );
-        ob.loaded = true;
-        moon.loaded = true;
-        for (var k in moon) {
-          if (!ob.hasOwnProperty(k)) {
-            ob[k] = moon[k];
+        smallLoad.style.display = "inline-block";
+        try {
+          let ob = await this.loadGlb(
+            moon.name,
+            moon.texture,
+            moon.props.radius,
+            { x: moon.props.x, y: moon.props.y, z: moon.props.z },
+            moon.props.inclination
+          );
+
+          ob.loaded = true;
+          moon.loaded = true;
+          for (var k in moon) {
+            if (!ob.hasOwnProperty(k)) {
+              ob[k] = moon[k];
+            }
           }
-        }
-        moon = ob;
+          moon = ob;
+          this.scene.add(moon);
+        } catch (e) {}
+        smallLoad.style.display = "none";
       }
-      this.scene.add(moon);
-    };
-    moon.symbol = this.symbol;
-    moon.unmount = () => {
-      this.scene.remove(moon);
-      moon.removeTrail();
-    };
+    }
+    
     moon.drawTrail = () => {
       this.scene.add(this.scenes.find((x) => x.name == moon.name + "Trail"));
     };
